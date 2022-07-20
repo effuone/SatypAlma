@@ -178,10 +178,10 @@ app.listen(process.env.PORT, ()=>{
     console.log('Satyp Alma backend launched.')
 })  
 try{
-    const rowsOfCreatingStores = (await pgPool.query('CREATE TABLE stores(id SERIAL PRIMARY KEY,name VARCHAR(255),url VARCHAR(255),parsable BOOLEAN);')).rowCount
-    const rowsOfCreatingCategories = await pgPool.query('CREATE TABLE categories(id SERIAL PRIMARY KEY, store_id int REFERENCES stores (id) ON UPDATE CASCADE ON DELETE CASCADE, name VARCHAR(255), url VARCHAR(255), average_price INT, product_count INT);').rowCount
-    console.log(rowsOfCreatingStores)
-    console.log(rowsOfCreatingCategories)
+    // const rowsOfCreatingStores = (await pgPool.query('CREATE TABLE stores(id SERIAL PRIMARY KEY,name VARCHAR(255),url VARCHAR(255),parsable BOOLEAN);')).rowCount
+    // const rowsOfCreatingCategories = await pgPool.query('CREATE TABLE categories(id SERIAL PRIMARY KEY, store_id int REFERENCES stores (id) ON UPDATE CASCADE ON DELETE CASCADE, name VARCHAR(255), url VARCHAR(255), average_price INT, product_count INT);').rowCount
+    // console.log(rowsOfCreatingStores)
+    // console.log(rowsOfCreatingCategories)
     await SatypAlmaService.addStore({
         name: 'Sulpak.kz',
         url: 'https://www.sulpak.kz',
@@ -191,17 +191,17 @@ try{
     console.log(e)
 }
 
-const store = await SatypAlmaService.getStore(1)
-const categories = JSON.parse((await fs.readFile('categories.json', {encoding:'utf-8'})))
-for (let i = 0; i < categories.length; i++) {
-    try{
-        const element = categories[i];
-        const data = await SatypAlmaService.addCategory(store.id, element)
-        console.log(data + 'parsed!')
-    }catch(e){
-        console.log(e)
-    }
-}
+// const store = await SatypAlmaService.getStore(1)
+// const categories = JSON.parse((await fs.readFile('categories.json', {encoding:'utf-8'})))
+// for (let i = 0; i < categories.length; i++) {
+//     try{
+//         const element = categories[i];
+//         const data = await SatypAlmaService.addCategory(store.id, element)
+//         console.log(data + 'parsed!')
+//     }catch(e){
+//         console.log(e)
+//     }
+// }
 // console.log((await SatypAlmaService.addStoreToCategory(category.id, store.id)))
 
 // cron.schedule('1 33 0 * * Tuesday', async () => {
