@@ -1,6 +1,8 @@
 import express, { json } from "express";
 import cors from 'cors'
-import {} from 'dotenv'
+import path from "path";
+import { config } from 'dotenv'
+import { filePath } from "./middleware/filepath.middleware";
 import SatypAlmaService from "./API/SatypAlmaService";
 import 'dotenv/config'
 import {storeRouter, categoryRouter} from "./Routes/routes";
@@ -9,6 +11,8 @@ import Parser from './API/Parser'
 import cheerio from 'cheerio'
 import * as fs from 'fs/promises'
 import pgPool from "./Db/db";
+
+const PORT = process.env.PORT || 8080
 
 const averageSulpakPricePerPage = async (pagedUrl) => {
     let totalSumPerPage = 0
@@ -170,10 +174,13 @@ const updateDatabaseCategories = async ()=>{
 
 const app = express()
 app.use(express.json())
+app.use('/', async (req,res)=>{
+    res.send('Working')
+})
 app.use('/api/', storeRouter)
 app.use('/api/', categoryRouter)
 app.use(cors())
-app.listen(process.env.PORT, ()=>{
+app.listen(PORT, ()=>{
     console.log('Satyp Alma backend launched.')
 })
 // console.log((await SatypAlmaService.addStoreToCategory(category.id, store.id)))
