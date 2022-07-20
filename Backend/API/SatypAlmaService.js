@@ -1,11 +1,11 @@
 import axios from "axios"
-
+import 'dotenv/config'
 export default class SatypAlmaService
 {
     static async getStore(id)
     {
         try{
-            const response = await axios.get('http://localhost:8080/api/stores/' + id)
+            const response = await axios.get(process.env.WEB_URL+'/api/stores/' + id)
             return response.data
         }catch(e){
             console.log(e)
@@ -14,7 +14,7 @@ export default class SatypAlmaService
     static async getStore(name)
     {
         try{
-            const response = await axios.get('http://localhost:8080/api/stores/' + name)
+            const response = await axios.get(process.env.WEB_URL+'/api/stores/' + name)
             return response.data
         }catch(e){
             console.log(e)
@@ -25,7 +25,7 @@ export default class SatypAlmaService
         try{
             const response = await axios({
                 method: 'post',
-                url: 'http://localhost:8080/api/stores',
+                url: process.env.WEB_URL+'/api/stores',
                 data: {
                     'name': store.name,
                     'url': store.url,
@@ -43,7 +43,7 @@ export default class SatypAlmaService
     static async getStores()
     {
         try{
-            const response = await axios.get('http://localhost:8080/api/stores/')
+            const response = await axios.get(process.env.WEB_URL+'/api/stores/')
             return response.data
         }catch(e){
             console.log(e)
@@ -52,7 +52,7 @@ export default class SatypAlmaService
     static async getCategories()
     {
         try{
-            const response = await axios('http://localhost:8080/api/categories')
+            const response = await axios(process.env.WEB_URL+'/api/categories')
             return response.data
         }catch(e){
             console.log(e)
@@ -63,7 +63,7 @@ export default class SatypAlmaService
         try{
             const response = await axios({
                 method: 'post',
-                url: 'http://localhost:8080/api/categories',
+                url: process.env.WEB_URL+'/api/categories',
                 data: {
                     'storeId': storeId,
                     'name': category.name,
@@ -85,7 +85,7 @@ export default class SatypAlmaService
         try{
             const response = await axios({
                 method: 'put',
-                url: 'http://localhost:8080/api/categories/' + categoryId,
+                url: process.env.WEB_URL+'api/categories/' + categoryId,
                 data: {
                     'averagePrice': productInfo.averagePrice,
                     'productCount': productInfo.totalAmountOfProducts
@@ -103,7 +103,7 @@ export default class SatypAlmaService
     {
         const encodedName = encodeURIComponent(name)
         try {
-            const res = await axios.get('http://localhost:8080/api/categories/name/' + encodedName);
+            const res = await axios.get(process.env.WEB_URL+'/api/categories/name/' + encodedName);
             return res.status
         }catch (err) {
             if(err.response) {
@@ -115,7 +115,7 @@ export default class SatypAlmaService
     {
         const encodedUrl = encodeURIComponent(url)
         try {
-            const res = await axios.get('http://localhost:8080/api/categories/url/' + encodedUrl);
+            const res = await axios.get(process.env.WEB_URL+'/api/categories/url/' + encodedUrl);
             return res
         }catch (err) {
             if(err.response) {
