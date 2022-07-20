@@ -85,17 +85,14 @@ export default class SatypAlmaService
         try{
             const response = await axios({
                 method: 'put',
-                params: {
-                    'id': categoryId
-                },
-                url: 'http://localhost:8080/api/categories',
+                url: 'http://localhost:8080/api/categories/' + categoryId,
                 data: {
                     'averagePrice': productInfo.averagePrice,
-                    'productCount': productInfo.productCount
+                    'productCount': productInfo.totalAmountOfProducts
                 },
                 headers: {
                   'Content-Type': 'application/json'
-                } 
+                }
             })
             return response.data
         }catch(e){

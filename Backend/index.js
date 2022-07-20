@@ -116,7 +116,8 @@ const getCategoryList = async (url) => {
             }
         }
     }
-    return [... new Set(subCategories)]
+    const linkList = [... new Set(subCategories)]
+    await fs.writeFile('linkList.json', JSON.stringify(linkList)) 
 }
 //функция которая принимает массив ссылок категорий и возвращает массив с финальными категориями 
 const getCategoryListWithPrice = async (linkList) => {
@@ -167,8 +168,6 @@ const updateDatabaseCategories = async ()=>{
     }
 }
 
-
-
 const app = express()
 app.use(express.json())
 app.use('/api/', storeRouter)
@@ -176,50 +175,38 @@ app.use('/api/', categoryRouter)
 app.use(cors())
 app.listen(process.env.PORT, ()=>{
     console.log('Satyp Alma backend launched.')
-})  
-try{
-    // const rowsOfCreatingStores = (await pgPool.query('CREATE TABLE stores(id SERIAL PRIMARY KEY,name VARCHAR(255),url VARCHAR(255),parsable BOOLEAN);')).rowCount
-    // const rowsOfCreatingCategories = await pgPool.query('CREATE TABLE categories(id SERIAL PRIMARY KEY, store_id int REFERENCES stores (id) ON UPDATE CASCADE ON DELETE CASCADE, name VARCHAR(255), url VARCHAR(255), average_price INT, product_count INT);').rowCount
-    // console.log(rowsOfCreatingStores)
-    // console.log(rowsOfCreatingCategories)
-    await SatypAlmaService.addStore({
-        name: 'Sulpak.kz',
-        url: 'https://www.sulpak.kz',
-        parsable: true
-    })
-}catch(e){
-    console.log(e)
-}
-
-// const store = await SatypAlmaService.getStore(1)
-// const categories = JSON.parse((await fs.readFile('categories.json', {encoding:'utf-8'})))
-// for (let i = 0; i < categories.length; i++) {
-//     try{
-//         const element = categories[i];
-//         const data = await SatypAlmaService.addCategory(store.id, element)
-//         console.log(data + 'parsed!')
-//     }catch(e){
-//         console.log(e)
-//     }
-// }
+})
 // console.log((await SatypAlmaService.addStoreToCategory(category.id, store.id)))
 
-// cron.schedule('1 33 0 * * Tuesday', async () => {
-//     try{
-//         const store = await SatypAlmaService.getStore(1)
-//         const subCategories = await getCategoryList(store.url)
-//         await fs.writeFile('linkList.json', JSON.stringify(subCategories))
-//         const linkList = JSON.parse(await fs.readFile('linkList.json', {encoding:'utf-8'}))
-//         for (let i = 0; i < linkList.length; i++) {
-//             const url = linkList[i];
-//             const existingCategory = await SatypAlmaService.getCategoryByUrl(url)
-//             if(existingCategory)
-//             {
-//                 const productInfo = await averageSulpakPricePerSubCategory(url)
-//                 await SatypAlmaService.updateCategory(existingCategory.id, productInfo)
-//             }
-//         }
-//     }catch(e){
-//         console.log(e)
-//     }
-// });
+cron.schedule('1 0 4 * * Monday', async () => {
+    //Sulpak scheduling update
+    console.log('start')
+    try{
+        // // get available urls
+        // await getCategoryList(store.url)
+        // // read from file those urls
+        // const linkList = JSON.parse(await fs.readFile('linkList.json', {encoding: "utf-8"}))
+        // const updatedCategories = await getCategoryListWithPrice(linkList)
+        const dbCategories = await SatypAlmaService.getCategories()
+        for (let i = 0; i < dbCategories.length; i++) {
+            const category = dbCategories[i];
+            const newProductInfo = await averageSulpakPricePerSubCategory(category.url)
+            console.log(newProductInfo)
+            const updatedCategory = await SatypAlmaService.updateCategory(category.id, newProductInfo)
+            console.log(updatedCategory)
+        }
+    }catch(e){
+        console.log(e)
+    }
+    //creation
+    // const categories = JSON.parse((await fs.readFile('categories.json', {encoding:'utf-8'})))
+    // for (let i = 0; i < categories.length; i++) {
+    //     try{
+    //         const element = categories[i];
+    //         const data = await SatypAlmaService.addCategory(store.id, element)
+    //         console.log(data + 'parsed!')
+    //     }catch(e){
+    //         console.log(e)
+    //     }
+    // }
+});

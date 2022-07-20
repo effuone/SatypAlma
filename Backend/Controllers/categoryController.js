@@ -76,7 +76,7 @@ class categoryController {
             const existingModel = await pgPool.query(`SELECT* FROM categories where id = $1`, [id])
             if(existingModel.rowCount <= 0)
                 return res.status(404).json('Category not found')
-            const query = await pgPool.query('UPDATE categories SET average_price = $1, product_count = $2', [averagePrice, productCount])
+            const query = await pgPool.query('UPDATE categories SET average_price = $1, product_count = $2 where id = $3', [averagePrice, productCount, id])
             if(query.rowCount >= 0)
                 res.status(204).json('Successfully updated')
             else
