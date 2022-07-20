@@ -173,7 +173,7 @@ const updateDatabaseCategories = async ()=>{
 
 const app = express()
 app.use(express.json())
-app.use('/', async (req,res)=>{
+app.use('/test', async (req,res)=>{
     res.send('Working')
 })
 app.use('/api/', storeRouter)
