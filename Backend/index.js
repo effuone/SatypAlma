@@ -175,7 +175,6 @@ app.use('/test', async (req,res)=>{
 })
 app.use('/api/', storeRouter)
 app.use('/api/', categoryRouter)
-app.use(cors())
 app.listen(PORT, ()=>{
     console.log('Satyp Alma backend launched.')
 })
