@@ -1,7 +1,5 @@
 import express, { json } from "express";
 import cors from 'cors'
-import path from "path";
-import { config } from 'dotenv'
 import SatypAlmaService from "./API/SatypAlmaService";
 import 'dotenv/config'
 import {storeRouter, categoryRouter} from "./Routes/routes";
@@ -9,7 +7,6 @@ import cron from 'node-cron';
 import Parser from './API/Parser'
 import cheerio from 'cheerio'
 import * as fs from 'fs/promises'
-import pgPool from "./Db/db";
 
 const PORT = process.env.PORT || 8080
 
@@ -183,7 +180,7 @@ app.listen(PORT, ()=>{
     console.log('Satyp Alma backend launched.')
 })
 // console.log((await SatypAlmaService.addStoreToCategory(category.id, store.id)))
-
+// console.log(await SatypAlmaService.getCategories())
 cron.schedule('1 0 4 * * Monday', async () => {
     //Sulpak scheduling update
     console.log('start')
