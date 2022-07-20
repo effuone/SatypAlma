@@ -2,7 +2,6 @@ import express, { json } from "express";
 import cors from 'cors'
 import path from "path";
 import { config } from 'dotenv'
-import { filePath } from "./middleware/filepath.middleware";
 import SatypAlmaService from "./API/SatypAlmaService";
 import 'dotenv/config'
 import {storeRouter, categoryRouter} from "./Routes/routes";
