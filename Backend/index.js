@@ -188,7 +188,7 @@ app.listen(PORT, ()=>{
     console.log('Satyp Alma backend launched.')
 })
 // console.log((await SatypAlmaService.addStoreToCategory(category.id, store.id)))
-// console.log(await SatypAlmaService.getCategories())
+console.log(await SatypAlmaService.getCategories())
 cron.schedule('1 0 4 * * Monday', async () => {
     //Sulpak scheduling update
     console.log('start')
