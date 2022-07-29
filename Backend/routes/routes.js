@@ -19,4 +19,4 @@ storeRouter.get('/price/', categoryController.getCategoryPriceByUrl)
 storeRouter.put('/categories/:id', categoryController.updateCategory)
 storeRouter.delete('/categories/:id', categoryController.deleteCategory)
 export const productRouter = new Router();
-productRouter.get('/products/', productController.getProduct)
+productRouter.get('/products/:url', productController.getProduct)

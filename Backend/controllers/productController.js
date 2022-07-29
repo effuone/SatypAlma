@@ -4,7 +4,7 @@ class productController {
     async getProduct (req,res)
     {
         try{
-            const {url} = req.body
+            const {url} = req.params.url
             console.log(url)
             const bestProduct = await sulpak.getBetterProduct(url)
             res.json(bestProduct)
