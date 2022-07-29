@@ -1,5 +1,5 @@
-import dbPool from "../Db/db";
-import pgPool from "../Db/db";
+import dbPool from "../database/db";
+import pgPool from "../database/db";
 
 // import {body, validationResult} from 'express-validator'
 class storeController {

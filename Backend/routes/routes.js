@@ -1,6 +1,7 @@
 import { Router } from "express";
-import storeController from "../Controllers/storeController";
-import categoryController from "../Controllers/categoryController";
+import storeController from '../controllers/storeController'
+import categoryController from '../controllers/categoryController'
+import productController from "../controllers/productController";
 export const storeRouter = new Router();
 storeRouter.post('/stores/', storeController.createStore)
 storeRouter.get('/stores/', storeController.getStores)
@@ -17,3 +18,5 @@ storeRouter.get('/categories/url/:url', categoryController.getCategoryByUrl)
 storeRouter.get('/price/', categoryController.getCategoryPriceByUrl)
 storeRouter.put('/categories/:id', categoryController.updateCategory)
 storeRouter.delete('/categories/:id', categoryController.deleteCategory)
+export const productRouter = new Router();
+productRouter.get('/products/', productController.getProduct)
