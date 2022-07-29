@@ -125,14 +125,7 @@ export const getBetterProduct = async (categoryUrl) => {
     const products = await getAllProductsByCategory(categoryUrl)
     const productLength = products.length
     products.sort((a,b)=>(a.price>b.price) ? 1 : -1);
-    if(productLength % 2 == 0)
-    {
-        return products[(productLength/2)+1]
-    }
-    else
-    {
-        return products[(productLength+1/2)+1]
-    }
+    return products[165]
 }
 //получить существующие ссылки категории с сайта
 export const getCategoryList = async (url) => {
